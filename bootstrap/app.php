@@ -15,14 +15,17 @@ $app = new \Slim\App([
             'host' => 'localhost',
             'database' => 'slim_test',
             'username' => 'root',
+            // password for Xampp is NULL
+            // password for MAMP is root
             'password' => '',
+            //'password' => 'root',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
         ]
-        
+
     ]
-    
+
 ]);
 
 $container = $app->getContainer();
@@ -52,19 +55,19 @@ $container['view'] = function ($container){
       $view = new \Slim\Views\Twig(__DIR__ . '/../resources/views', [
           'cache' => false,
       ]);
-      
+
       $view->addExtension(new \Slim\Views\TwigExtension(
           $container->router,
           $container->request->getUri()
       ));
-      
+
       $view->getEnvironment()->addGlobal('auth', [
           'check' => $container->auth->check(),
           'user' => $container->auth->user(),
       ]);
-      
+
       $view->getEnvironment()->addGlobal('flash', $container->flash);
-      
+
       return $view;
 };
 
